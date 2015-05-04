@@ -118,8 +118,7 @@ class PickleCache(object):
             0
         """
 
-        if key in self.__data[key]:
-
+        if self.__data[key]:
             del self.__data[key]
             if self.autosync is True:
                 self.flush()
@@ -138,12 +137,11 @@ class PickleCache(object):
             >>> print pcache['foo']
             'bar'
         """
-
-        if os.path.exists(self.__file_path):
-            if os.path.getsize(self.__file_path):
-                filedata = open(self.__file_path, 'r')
-                self.__data = pickle.load(filedata)
-                filedata.close()
+        loadfile = self.__file_path
+        if os.path.exists(loadfile) and os.path.getsize(loadfile) > 0:
+            filedata = open(self.__file_path, 'r')
+            self.__data = pickle.load(filedata)
+            filedata.close()
 
     def flush(self):
         """function to save the data found in the PickleCache __data
@@ -163,8 +161,7 @@ class PickleCache(object):
             {'foo': 'bar'}
         """
 
-        if os.path.exists(self.__file_path):
-            filedata = open(self.__file_path, 'w')
-            self.__file_object = filedata
-            pickle.dump(self.__data, self.__file_object)
-            filedata.close()
+        filedata = open(self.__file_path, 'w')
+        self.__file_object = filedata
+        pickle.dump(self.__data, self.__file_object)
+        filedata.close()
