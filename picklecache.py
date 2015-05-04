@@ -141,7 +141,7 @@ class PickleCache(object):
 
         if os.path.exists(self.__file_path):
             if os.path.getsize(self.__file_path):
-                filedata = open(self.__file_path, 'rb')
+                filedata = open(self.__file_path, 'r')
                 self.__data = pickle.load(filedata)
                 filedata.close()
 
